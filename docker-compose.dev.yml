@@ -65,6 +65,8 @@ services:
     volumes:
       - solr_data:/var/solr
     restart: unless-stopped
+    ports:
+      - "8983:8983"
     healthcheck:
       test: ["CMD", "wget", "-qO", "/dev/null", "http://localhost:8983/solr/"]
 
@@ -72,5 +74,7 @@ services:
     container_name: ${REDIS_CONTAINER_NAME}
     image: redis:${REDIS_VERSION}
     restart: unless-stopped
+    ports:
+      - "6379:6379"
     healthcheck:
       test: ["CMD", "redis-cli", "-e", "QUIT"]
