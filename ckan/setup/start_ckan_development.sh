@@ -57,13 +57,13 @@ then
 fi
 
 # Update Site URL because it was not being set
-echo "Setting ckan.site_url as: $CKAN__PLUGINS"
-ckan config-tool $CKAN_INI "ckan.plugins = $CKAN__PLUGINS"
+echo "Setting ckan.site_url as: $CKAN__SITE_URL"
+ckan config-tool $CKAN_INI "ckan.site_url = $CKAN__SITE_URL"
 
 
 # Update the plugins setting in the ini file with the values defined in the env var
-echo "Loading the following plugins: $CKAN__SITE_URL"
-ckan config-tool $CKAN_INI "ckan.site_url = $CKAN__SITE_URL"
+echo "Loading the following plugins: $CKAN__PLUGINS"
+ckan config-tool $CKAN_INI "ckan.plugins = $CKAN__PLUGINS"
 
 # Update test-core.ini DB, SOLR & Redis settings
 echo "Loading test settings into test-core.ini"
