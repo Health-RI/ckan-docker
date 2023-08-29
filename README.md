@@ -22,7 +22,7 @@
 
 ## 0. Getting Started Quickly
 
-These instructions are for a quick CKAN Development environment running on docker:
+These instructions are to get a CKAN Development environment up and running quickly. Docker should be installed and the Docker daemon should be running. 
 
 Clone the Repository and go to the root directory.
 
@@ -45,8 +45,7 @@ Start the Containers
 
 	docker compose -f docker-compose.dev.yml up
 
-Done! you can now access CKAN at http://localhost:5000/
-To Login use the credentials:  
+Done! you can now access CKAN at [http://localhost:5000/](http://localhost:5000/). To Login use the following credentials (credentials can be modified in the .env file):  
 - username: `ckan_admin` (see in `.env` value of CKAN_SYSADMIN_NAME) 
 - password: `test1234` (see in `.env` value of CKAN_SYSADMIN_PASSWORD)
 
