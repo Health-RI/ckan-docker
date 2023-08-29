@@ -33,6 +33,10 @@ Checkout `civity` Branch
 
     git checkout civity
 
+Create a copy of `.env.civity` file next to it and rename it to `.env`
+
+	cp .env.civity .env
+
 Build the Images
 
 	docker compose -f docker-compose.dev.yml build
