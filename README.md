@@ -1,6 +1,7 @@
 # Docker Compose setup for CKAN
 
 
+* [Getting Started Quickly](#getting-started-quickly)
 * [Overview](#overview)
 * [Installing Docker](#installing-docker)
 * [docker compose vs docker-compose](#docker-compose-vs-docker-compose)
@@ -18,6 +19,36 @@
 * [Changing the base image](#Changing-the-base-image)
 * [Replacing DataPusher with XLoader](#Replacing-DataPusher-with-XLoader)
 
+
+## 0. Getting Started Quickly
+
+These instructions are for a quick CKAN Development environment running on docker:
+
+Clone the Repository and go to the root directory.
+
+	git clone https://github.com/CivityNL/ckan-docker.git
+    cd ckan-docker
+
+Checkout `civity` Branch
+
+    git checkout civity
+
+Create a copy of `.env.civity` file next to it and rename it to `.env`
+
+	cp .env.civity .env
+
+Build the Images
+
+	docker compose -f docker-compose.dev.yml build
+
+Start the Containers
+
+	docker compose -f docker-compose.dev.yml up
+
+Done! you can now access CKAN at http://localhost:5000/
+To Login use the credentials:  
+- username: `ckan_admin` (see in `.env` value of CKAN_SYSADMIN_NAME) 
+- password: `test1234` (see in `.env` value of CKAN_SYSADMIN_PASSWORD)
 
 ## 1.  Overview
 
