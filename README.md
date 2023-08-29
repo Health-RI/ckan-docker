@@ -46,7 +46,9 @@ Start the Containers
 	docker compose -f docker-compose.dev.yml up
 
 Done! you can now access CKAN at http://localhost:5000/
-To Login use the credentials:  username: `ckan_admin` password: `test1234`
+To Login use the credentials:  
+- username: `ckan_admin` (see in `.env` value of CKAN_SYSADMIN_NAME) 
+- password: `test1234` (see in `.env` value of CKAN_SYSADMIN_PASSWORD)
 
 ## 1.  Overview
 
