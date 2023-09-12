@@ -1,11 +1,11 @@
 #!/bin/bash
 
-GITHUB_USERNAME=""
-GITHUB_TOKEN=""
+# GITHUB_USERNAME=""
+# GITHUB_TOKEN=""
 
 # Clone the local extensions desired
 echo "[[[[ ckanext-civity ]]]]"
-git clone https://${GITHUB_USERNAME}:${GITHUB_TOKEN}@github.com/CivityNL/ckanext-civity.git ${SRC_EXTENSIONS_DIR}/ckanext-civity
+git clone git@github.com:CivityNL/ckanext-civity.git ${SRC_EXTENSIONS_DIR}/ckanext-civity
 cd "${SRC_EXTENSIONS_DIR}"/ckanext-civity
 git checkout main
 
@@ -25,7 +25,7 @@ cd "${SRC_EXTENSIONS_DIR}"/ckanext-harvest
 git checkout v1.5.6
 
 echo "[[[[ ckanext-healthri ]]]]"
-git clone https://${GITHUB_USERNAME}:${GITHUB_TOKEN}@github.com/CivityNL/ckanext-healthri.git ${SRC_EXTENSIONS_DIR}/ckanext-healthri
+git clone git@github.com:CivityNL/ckanext-healthri.git ${SRC_EXTENSIONS_DIR}/ckanext-healthri
 cd "${SRC_EXTENSIONS_DIR}"/ckanext-healthri
 git checkout main
 
