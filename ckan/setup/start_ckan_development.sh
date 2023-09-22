@@ -27,7 +27,7 @@ git checkout main
 echo "[[[[ ckanext-scheming ]]]]"
 git clone https://github.com/CivityNL/ckanext-scheming.git ${SRC_EXTENSIONS_DIR}/ckanext-scheming
 cd "${SRC_EXTENSIONS_DIR}"/ckanext-scheming
-git checkout release-3.0.0-civity-py3
+git checkout release-3.0.0-civity
 
 
 # Install any local extensions in the src_extensions volume
@@ -100,7 +100,7 @@ ckan config-tool $CKAN_INI "ckan.plugins = $CKAN__PLUGINS"
 # Update the config file with each extension config-options
 echo "[ckanext-scheming] Setting up config-options"
 ckan config-tool $CKAN_INI -s app:main \
-    "scheming.dataset_schemas = ckanext.scheming:ckan_dataset.yaml"\
+    "scheming.dataset_schemas = ckanext.healthri:scheming/schemas/core_schema.json ckanext.healthri:scheming/schemas/dcat_nl.json"\
     "scheming.presets = ckanext.scheming:presets.json"\
     "scheming.dataset_fallback = false"
 
