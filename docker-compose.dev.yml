@@ -4,6 +4,8 @@ volumes:
   ckan_storage:
   pg_data:
   solr_data:
+  matomo_data:
+  mariadb_data:
 
 services:
 
@@ -76,3 +78,40 @@ services:
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "redis-cli", "-e", "QUIT"]
+
+  matomo:
+    container_name: ${MATOMO_CONTAINER_NAME}
+    image: matomo:${MATOMO_VERSION}
+    volumes:
+     - matomo_data:/var/www/html
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    environment:
+     - MATOMO_DATABASE_HOST
+     - MATOMO_DATABASE_ADAPTER
+     - MATOMO_DATABASE_TABLES_PREFIX
+     - MATOMO_DATABASE_USERNAME
+     - MATOMO_DATABASE_PASSWORD
+     - MATOMO_DATABASE_DBNAME
+    ports:
+     - "${MATOMO_PORT_HOST}:80"
+    healthcheck:
+      test: ["CMD", "wget", "-qO", "/dev/null", "http://localhost:80"]
+
+  mariadb:
+    container_name: ${MARIADB_CONTAINER_NAME}
+    image: mariadb:${MARIADB_VERSION}
+    command: --max-allowed-packet=64MB
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD
+      - MARIADB_AUTO_UPGRADE
+      - MARIADB_DISABLE_UPGRADE_BACKUP
+      - MYSQL_PASSWORD
+      - MYSQL_DATABASE
+      - MYSQL_USER
+      - MARIADB_INITDB_SKIP_TZINFO
+    healthcheck:
+      test: ["CMD", "/usr/local/bin/healthcheck.sh", "--su-mysql", "--connect", "--innodb_initialized"]
