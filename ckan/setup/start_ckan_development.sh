@@ -14,6 +14,11 @@ git clone https://github.com/ckan/ckanext-dcat.git $SRC_EXTENSIONS_DIR/ckanext-d
 cd "$SRC_EXTENSIONS_DIR"/ckanext-dcat
 git checkout v1.5.1
 
+echo "[[[[ ckanext-fairdatapoint ]]]]"
+git clone https://${GITHUB_USERNAME}:${GITHUB_TOKEN}@github.com/CivityNL/ckanext-fairdatapoint.git ${SRC_EXTENSIONS_DIR}/ckanext-fairdatapoint
+cd "${SRC_EXTENSIONS_DIR}"/ckanext-fairdatapoint
+git checkout main
+
 echo "[[[[ ckanext-harvest ]]]]"
 git clone https://github.com/ckan/ckanext-harvest.git ${SRC_EXTENSIONS_DIR}/ckanext-harvest
 cd "${SRC_EXTENSIONS_DIR}"/ckanext-harvest
@@ -24,10 +29,36 @@ git clone https://${GITHUB_USERNAME}:${GITHUB_TOKEN}@github.com/CivityNL/ckanext
 cd "${SRC_EXTENSIONS_DIR}"/ckanext-healthri
 git checkout main
 
+echo "[[[[ ckanext-matomo ]]]]"
+git clone https://${GITHUB_USERNAME}:${GITHUB_TOKEN}@github.com/CivityNL/ckanext-matomo.git ${SRC_EXTENSIONS_DIR}/ckanext-matomo
+cd "${SRC_EXTENSIONS_DIR}"/ckanext-matomo
+git checkout main
+
+echo "[[[[ ckanext-oauth2 ]]]]"
+git clone https://${GITHUB_USERNAME}:${GITHUB_TOKEN}@github.com/CivityNL/ckanext-oauth2.git ${SRC_EXTENSIONS_DIR}/ckanext-oauth2
+cd "${SRC_EXTENSIONS_DIR}"/ckanext-oauth2
+git checkout civity-py3
+
+echo "[[[[ ckanext-pdfview ]]]]"
+git clone https://github.com/ckan/ckanext-pdfview.git ${SRC_EXTENSIONS_DIR}/ckanext-pdfview
+cd "${SRC_EXTENSIONS_DIR}"/ckanext-pdfview
+git checkout 0.0.8
+
+echo "[[[[ ckanext-portal ]]]]"
+git clone https://${GITHUB_USERNAME}:${GITHUB_TOKEN}@github.com/CivityNL/ckanext-portal.git ${SRC_EXTENSIONS_DIR}/ckanext-portal
+cd "${SRC_EXTENSIONS_DIR}"/ckanext-portal
+git checkout main
+
 echo "[[[[ ckanext-scheming ]]]]"
 git clone https://github.com/CivityNL/ckanext-scheming.git ${SRC_EXTENSIONS_DIR}/ckanext-scheming
 cd "${SRC_EXTENSIONS_DIR}"/ckanext-scheming
 git checkout release-3.0.0-civity
+
+echo "[[[[ ckanext-workflow ]]]]"
+git clone https://${GITHUB_USERNAME}:${GITHUB_TOKEN}@github.com/CivityNL/ckanext-workflow.git ${SRC_EXTENSIONS_DIR}/ckanext-workflow
+cd "${SRC_EXTENSIONS_DIR}"/ckanext-workflow
+git checkout main
+
 
 
 # Install any local extensions in the src_extensions volume
