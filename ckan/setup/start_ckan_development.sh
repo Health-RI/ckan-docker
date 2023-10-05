@@ -131,7 +131,7 @@ ckan config-tool $CKAN_INI "ckan.plugins = $CKAN__PLUGINS"
 # Update the config file with each extension config-options
 echo "[ckanext-scheming] Setting up config-options"
 ckan config-tool $CKAN_INI -s app:main \
-    "scheming.dataset_schemas = ckanext.healthri:scheming/schemas/core_schema.json ckanext.healthri:scheming/schemas/dcat_nl.json"\
+    "scheming.dataset_schemas = ckanext.healthri:scheming/schemas/health_ri.json"\
     "scheming.presets = ckanext.scheming:presets.json"\
     "scheming.dataset_fallback = false"
 
