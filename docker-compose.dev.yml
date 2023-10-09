@@ -7,6 +7,7 @@ volumes:
   matomo_data:
   mariadb_data:
 
+
 services:
 
   ckan-dev:
@@ -32,14 +33,21 @@ services:
       - ./src:/srv/app/src_extensions
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "wget", "-qO", "/dev/null", "http://localhost:5000"]
-    
-  datapusher:
-    container_name: ${DATAPUSHER_CONTAINER_NAME}
-    image: ckan/ckan-base-datapusher:${DATAPUSHER_VERSION}
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "wget", "-qO", "/dev/null", "http://localhost:8800"]
+      test:
+        [
+          "CMD",
+          "wget",
+          "-qO",
+          "/dev/null",
+          "http://localhost:5000"
+        ]
+
+  # datapusher:
+  #   container_name: ${DATAPUSHER_CONTAINER_NAME}
+  #   image: ckan/ckan-base-datapusher:${DATAPUSHER_VERSION}
+  #   restart: unless-stopped
+  #   healthcheck:
+  #     test: ["CMD", "wget", "-qO", "/dev/null", "http://localhost:8800"]
 
   db:
     container_name: ${POSTGRESQL_CONTAINER_NAME}
@@ -59,8 +67,16 @@ services:
       - pg_data:/var/lib/postgresql/data
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}", "-d", "${POSTGRES_DB}"]
-     
+      test:
+        [
+          "CMD",
+          "pg_isready",
+          "-U",
+          "${POSTGRES_USER}",
+          "-d",
+          "${POSTGRES_DB}"
+        ]
+
   solr:
     container_name: ${SOLR_CONTAINER_NAME}
     image: ckan/ckan-solr:${SOLR_IMAGE_VERSION}
@@ -70,34 +86,48 @@ services:
     ports:
       - "8983:8983"
     healthcheck:
-      test: ["CMD", "wget", "-qO", "/dev/null", "http://localhost:8983/solr/"]
+      test:
+        [
+          "CMD",
+          "wget",
+          "-qO",
+          "/dev/null",
+          "http://localhost:8983/solr/"
+        ]
 
   redis:
     container_name: ${REDIS_CONTAINER_NAME}
     image: redis:${REDIS_VERSION}
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "redis-cli", "-e", "QUIT"]
+      test: [ "CMD", "redis-cli", "-e", "QUIT" ]
 
   matomo:
     container_name: ${MATOMO_CONTAINER_NAME}
     image: matomo:${MATOMO_VERSION}
     volumes:
-     - matomo_data:/var/www/html
+      - matomo_data:/var/www/html
     depends_on:
       mariadb:
         condition: service_healthy
     environment:
-     - MATOMO_DATABASE_HOST
-     - MATOMO_DATABASE_ADAPTER
-     - MATOMO_DATABASE_TABLES_PREFIX
-     - MATOMO_DATABASE_USERNAME
-     - MATOMO_DATABASE_PASSWORD
-     - MATOMO_DATABASE_DBNAME
+      - MATOMO_DATABASE_HOST
+      - MATOMO_DATABASE_ADAPTER
+      - MATOMO_DATABASE_TABLES_PREFIX
+      - MATOMO_DATABASE_USERNAME
+      - MATOMO_DATABASE_PASSWORD
+      - MATOMO_DATABASE_DBNAME
     ports:
-     - "${MATOMO_PORT_HOST}:80"
+      - "${MATOMO_PORT_HOST}:80"
     healthcheck:
-      test: ["CMD", "wget", "-qO", "/dev/null", "http://localhost:80"]
+      test:
+        [
+          "CMD",
+          "wget",
+          "-qO",
+          "/dev/null",
+          "http://localhost:80"
+        ]
 
   mariadb:
     container_name: ${MARIADB_CONTAINER_NAME}
@@ -114,4 +144,11 @@ services:
       - MYSQL_USER
       - MARIADB_INITDB_SKIP_TZINFO
     healthcheck:
-      test: ["CMD", "/usr/local/bin/healthcheck.sh", "--su-mysql", "--connect", "--innodb_initialized"]
+      test:
+        [
+          "CMD",
+          "/usr/local/bin/healthcheck.sh",
+          "--su-mysql",
+          "--connect",
+          "--innodb_initialized"
+        ]
