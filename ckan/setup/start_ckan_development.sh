@@ -10,9 +10,9 @@ cd "${SRC_EXTENSIONS_DIR}"/ckanext-civity
 git checkout main
 
 echo "[[[[ ckanext-dcat ]]]]"
-git clone https://github.com/ckan/ckanext-dcat.git $SRC_EXTENSIONS_DIR/ckanext-dcat
+git clone https://github.com/CivityNL/ckanext-dcat.git $SRC_EXTENSIONS_DIR/ckanext-dcat
 cd "$SRC_EXTENSIONS_DIR"/ckanext-dcat
-git checkout v1.5.1
+git checkout v1.5.1-civity
 
 echo "[[[[ ckanext-fairdatapoint ]]]]"
 git clone https://${GITHUB_USERNAME}:${GITHUB_TOKEN}@github.com/CivityNL/ckanext-fairdatapoint.git ${SRC_EXTENSIONS_DIR}/ckanext-fairdatapoint
