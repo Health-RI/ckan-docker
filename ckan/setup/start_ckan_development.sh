@@ -59,50 +59,40 @@ git clone https://${GITHUB_USERNAME}:${GITHUB_TOKEN}@github.com/CivityNL/ckanext
 cd "${SRC_EXTENSIONS_DIR}"/ckanext-workflow
 git checkout main
 
-
-
 # Install any local extensions in the src_extensions volume
 echo "Looking for local extensions to install..."
 echo "Extension dir contents:"
 ls -la $SRC_EXTENSIONS_DIR
-for i in $SRC_EXTENSIONS_DIR/*
-do
-    if [ -d $i ];
-    then
+for i in $SRC_EXTENSIONS_DIR/*; do
+    if [ -d $i ]; then
 
-        if [ -f $i/pip-requirements.txt ];
-        then
+        if [ -f $i/pip-requirements.txt ]; then
             pip install -r $i/pip-requirements.txt
             echo "Found requirements file in $i"
         fi
-        if [ -f $i/requirements.txt ];
-        then
+        if [ -f $i/requirements.txt ]; then
             pip install -r $i/requirements.txt
             echo "Found requirements file in $i"
         fi
-        if [ -f $i/dev-requirements.txt ];
-        then
+        if [ -f $i/dev-requirements.txt ]; then
             pip install -r $i/dev-requirements.txt
             echo "Found dev-requirements file in $i"
         fi
-        if [ -f $i/setup.py ];
-        then
+        if [ -f $i/setup.py ]; then
             cd $i
             python3 $i/setup.py develop
             echo "Found setup.py file in $i"
             cd $APP_DIR
         fi
 
-        if [ -f $i/config-options.ini ];
-        then
-          # TODO add them to the config
-#            pip install -r $i/dev-requirements.txt
+        if [ -f $i/config-options.ini ]; then
+            # TODO add them to the config
+            #            pip install -r $i/dev-requirements.txt
             echo "Found config-options file in $i"
         fi
 
         # Point `use` in test.ini to location of `test-core.ini`
-        if [ -f $i/test.ini ];
-        then
+        if [ -f $i/test.ini ]; then
             echo "Updating \`test.ini\` reference to \`test-core.ini\` for plugin $i"
             ckan config-tool $i/test.ini "use = config:../../src/ckan/test-core.ini"
         fi
@@ -115,8 +105,7 @@ ckan config-tool $CKAN_INI -s DEFAULT "debug = true"
 
 # Set up the Secret key used by Beaker and Flask
 # This can be overriden using a CKAN___BEAKER__SESSION__SECRET env var
-if grep -E "beaker.session.secret ?= ?$" ckan.ini
-then
+if grep -E "beaker.session.secret ?= ?$" ckan.ini; then
     echo "Setting beaker.session.secret in ini file"
     ckan config-tool $CKAN_INI "beaker.session.secret=$(python3 -c 'import secrets; print(secrets.token_urlsafe())')"
     JWT_SECRET=$(python3 -c 'import secrets; print("string:" + secrets.token_urlsafe())')
@@ -131,11 +120,10 @@ ckan config-tool $CKAN_INI "ckan.plugins = $CKAN__PLUGINS"
 # Update the config file with each extension config-options
 echo "[ckanext-scheming] Setting up config-options"
 ckan config-tool $CKAN_INI -s app:main \
-    "scheming.dataset_schemas = ckanext.healthri:scheming/schemas/health_ri.json"\
-    "scheming.presets = ckanext.scheming:presets.json"\
-    "scheming.dataset_fallback = false"
-
-
+    "scheming.dataset_schemas = ckanext.healthri:scheming/schemas/health_ri.json" \
+    "scheming.presets = ckanext.scheming:presets.json" \
+    "scheming.dataset_fallback = false" \
+    "ckan.cors.origin_allow_all = True"
 
 # Update test-core.ini DB, SOLR & Redis settings
 echo "Loading test settings into test-core.ini"
@@ -144,19 +132,26 @@ ckan config-tool $SRC_DIR/ckan/test-core.ini \
     "ckan.datastore.write_url = $TEST_CKAN_DATASTORE_WRITE_URL" \
     "ckan.datastore.read_url = $TEST_CKAN_DATASTORE_READ_URL" \
     "solr_url = $TEST_CKAN_SOLR_URL" \
-    "ckan.redis.url = $TEST_CKAN_REDIS_URL"
+    "ckan.redis.url = $TEST_CKAN_REDIS_URL" \
+    "ckan.cors.origin_allow_all = True"
 
 # Run the prerun script to init CKAN and create the default admin user
 python3 prerun.py
 
 # Run any startup scripts provided by images extending this one
-if [[ -d "/docker-entrypoint.d" ]]
-then
+if [[ -d "/docker-entrypoint.d" ]]; then
     for f in /docker-entrypoint.d/*; do
         case "$f" in
-            *.sh)     echo "$0: Running init file $f"; . "$f" ;;
-            *.py)     echo "$0: Running init file $f"; python3 "$f"; echo ;;
-            *)        echo "$0: Ignoring $f (not an sh or py file)" ;;
+        *.sh)
+            echo "$0: Running init file $f"
+            . "$f"
+            ;;
+        *.py)
+            echo "$0: Running init file $f"
+            python3 "$f"
+            echo
+            ;;
+        *) echo "$0: Ignoring $f (not an sh or py file)" ;;
         esac
         echo
     done
