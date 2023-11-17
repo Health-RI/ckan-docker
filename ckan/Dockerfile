@@ -11,5 +11,7 @@ RUN if ! [ /usr/share/zoneinfo/${TZ} -ef /etc/localtime ]; then \
     cp /usr/share/zoneinfo/${TZ} /etc/localtime ;\
     fi ;
 
+COPY ../src /srv/app/src_extensions
+
 COPY setup/install_ext_prod.sh ${APP_DIR}/install_ext_prod.sh
 RUN sh ${APP_DIR}/install_ext_prod.sh
