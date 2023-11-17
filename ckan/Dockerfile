@@ -1,5 +1,5 @@
-FROM ckan/ckan-base:2.10.1
-#FROM ckan/ckan-base:2.9.9
+# FROM ckan/ckan-base:2.10.1
+FROM ckan/ckan-base:2.9.9
 
 # Set up environment variables
 ENV APP_DIR=/srv/app
@@ -8,5 +8,8 @@ RUN echo ${TZ} > /etc/timezone
 
 # Make sure both files are not exactly the same
 RUN if ! [ /usr/share/zoneinfo/${TZ} -ef /etc/localtime ]; then \
-        cp /usr/share/zoneinfo/${TZ} /etc/localtime ;\
+    cp /usr/share/zoneinfo/${TZ} /etc/localtime ;\
     fi ;
+
+COPY setup/install_ext_prod.sh ${APP_DIR}/install_ext_prod.sh
+RUN sh ${APP_DIR}/install_ext_prod.sh
